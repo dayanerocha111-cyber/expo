@@ -1,96 +1,97 @@
----
-title: Start developing
-description: Make your first change to an Expo project and see it live on your device.
-hideTOC: true
----
+import React, { useState } from 'react';
+import { Text, View, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
-import { ProjectStructure } from '~/scenes/get-started/start-developing/ProjectStructure';
-import { TemplateFeatures } from '~/scenes/get-started/start-developing/TemplateFeatures';
-import { Collapsible } from '~/ui/components/Collapsible';
-import { ContentSpotlight } from '~/ui/components/ContentSpotlight';
-import { Terminal, DiffBlock } from '~/ui/components/Snippet';
-import { Step } from '~/ui/components/Step';
+export default function App() {
+  const [screen, setScreen] = useState('home');
 
-<Step label="1">
-## Start a development server
-To start the development server, run the following command:
+  if (screen === 'home') return <Home setScreen={setScreen} />;
+  if (screen === 'dicas') return <Dicas setScreen={setScreen} />;
+  if (screen === 'cultura') return <Cultura setScreen={setScreen} />;
+  if (screen === 'quiz') return <Quiz setScreen={setScreen} />;
 
-<Terminal cmd={['$ npx expo start']} />
+  return null;
+}
 
-</Step>
+function Menu({ setScreen }) {
+  return (
+    <View style={styles.menu}>
+      <TouchableOpacity onPress={() => setScreen('home')}><Text style={styles.menuItem}>🏠 Início</Text></TouchableOpacity>
+      <TouchableOpacity onPress={() => setScreen('dicas')}><Text style={styles.menuItem}>🌱 Dicas</Text></TouchableOpacity>
+      <TouchableOpacity onPress={() => setScreen('cultura')}><Text style={styles.menuItem}>🎉 Cultura</Text></TouchableOpacity>
+      <TouchableOpacity onPress={() => setScreen('quiz')}><Text style={styles.menuItem}>🎯 Quiz</Text></TouchableOpacity>
+    </View>
+  );
+}
 
-<Step label="2">
-## Open the app on your device
+function Home({ setScreen }) {
+  return (
+    <ScrollView style={styles.container}>
+      <Text style={styles.title}>Projeto Agrinho 2026</Text>
+      <Text style={styles.subtitle}>Escola Delfina Teixeira de Castro</Text>
 
-After running the command above, you will see a QR code in your terminal. Scan this QR code to open the app on your device.
+      <Image
+        source={{ uri: 'https://images.unsplash.com/photo-1600431521340-491eca880813' }}
+        style={styles.image}
+      />
 
-If you're using an Android Emulator or iOS Simulator, you can press <kbd>a</kbd> or <kbd>i</kbd> respectively to open the app.
+      <Text style={styles.text}>
+        Viver Bem no Semiárido - Município de Caridade
+      </Text>
 
-<Collapsible summary="Having problems?">
+      <Text style={styles.highlight}>
+        Conheça Aninha e João do Sertão 🌵
+      </Text>
 
-Make sure you are on the same Wi-Fi network on your computer and your device.
+      <Image
+        source={{ uri: 'https://images.unsplash.com/photo-1601050690597-df0568f70950' }}
+        style={styles.image}
+      />
 
-If it still doesn't work, it may be due to the router configuration &mdash; this is common for public networks. You can work around this by choosing the **Tunnel** connection type when starting the development server, then scanning the QR code again.
+      <Text style={styles.text}>
+        Um aplicativo feito para valorizar nossa cultura, nossa gente e ensinar como viver bem no semiárido.
+      </Text>
 
-<Terminal cmd={['$ npx expo start --tunnel']} />
+      <Menu setScreen={setScreen} />
 
-> Using the **Tunnel** connection type will make the app reloads considerably slower than on **LAN** or **Local**, so it's best to avoid tunnel when possible. You may want to install and use an emulator or simulator to speed up development if **Tunnel** is required to access your machine from another device on your network.
+      <Text style={styles.footer}>
+        Criado por: Coordenadora Pedagógica Daiane Vieira
+      </Text>
+    </ScrollView>
+  );
+}
 
-</Collapsible>
+function Dicas({ setScreen }) {
+  return (
+    <ScrollView style={styles.container}>
+      <Text style={styles.title}>Dicas do Semiárido</Text>
 
-</Step>
+      <Text style={styles.topic}>💧 Economia de Água</Text>
+      <Text style={styles.text}>Reutilizar água, usar cisternas e evitar desperdício</Text>
 
-<Step label="3">
+      <Text style={styles.topic}>🌱 Agricultura Familiar</Text>
+      <Text style={styles.text}>Valorizar a feira local e plantar alimentos resistentes</Text>
 
-## Make your first change
+      <Image
+        source={{ uri: 'https://images.unsplash.com/photo-1598514983318-2f64f8f4796c' }}
+        style={styles.image}
+      />
 
-Open the **src/app/index.tsx** file in your code editor and make a change.
+      <Text style={styles.topic}>🧶 Artesanato (Crochê)</Text>
+      <Text style={styles.text}>O crochê gera renda e valoriza a cultura local</Text>
 
-<DiffBlock
-  raw={`diff --git a/src/app/index.tsx b/src/app/index.tsx
-index 45cfa0e..4d1b384 100644
---- a/src/app/index.tsx
-+++ b/src/app/index.tsx
-@@ -17,7 +17,7 @@ export default function HomeScreen() {
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
--           Welcome to&nbsp;Expo
-+           Hello World!
-          </ThemedText>
-        </ThemedView>
-  `}
-/>
+      <Text style={styles.topic}>🌞 Proteção ao Sol</Text>
+      <Text style={styles.text}>Evitar horários quentes e usar proteção</Text>
 
-<Collapsible summary="Changes not showing up on your device?">
+      <Menu setScreen={setScreen} />
+    </ScrollView>
+  );
+}
 
-Expo Go is configured by default to automatically reload the app whenever a file is changed, but let's make sure to go over the steps to enable it in case somehow things aren't working.
+function Cultura({ setScreen }) {
+  return (
+    <ScrollView style={styles.container}>
+      <Text style={styles.title}>Cultura de Caridade</Text>
 
-- Make sure you have the [development mode enabled in Expo CLI](/workflow/development-mode#development-mode).
-- Close the Expo app and reopen it.
-- Once the app is open again, shake your device to reveal the developer menu. Press <kbd>Cmd ⌘</kbd> + <kbd>D</kbd>.
-- If you see **Fast Refresh** enabled, toggle it. If you see **Disable Fast Refresh**, dismiss the developer menu. Now try making another change.
-
-  <ContentSpotlight
-    alt="Developer menu in Expo Go app."
-    src="/static/images/get-started/developer-menu.png"
-    className="max-w-[540px]"
-  />
-
-</Collapsible>
-
-</Step>
-
----
-
-## File structure
-
-Below, you can get familiar with the default project's file structure:
-
-<ProjectStructure />
-
-## Features
-
-The default project template has the following features:
-
-<TemplateFeatures />
+      <Text style={styles.topic}>🎉 Festa de Santo Antônio</Text>
+      <Image
+        source={{ uri: 'https://images.unsplash.com/photo-1590080877777-8b5c3e
